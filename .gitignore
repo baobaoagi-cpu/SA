@@ -1,0 +1,7 @@
+_to_delete/
+*.tar
+*.tar.gz
+push_to_github.bat
+Thumbs.db
+desktop.ini
+.DS_Store
