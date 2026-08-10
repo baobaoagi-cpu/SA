@@ -89,7 +89,7 @@ body.no-scroll{overflow:hidden}
 .hero::after{content:"";position:absolute;inset:0;
   background:radial-gradient(820px 420px at 82% 10%,rgba(216,7,16,.28),transparent 60%)}
 .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;
-  align-items:center;padding:clamp(56px,9vw,110px) 0 clamp(60px,9vw,120px)}
+  align-items:center;padding-block:clamp(56px,9vw,110px) clamp(60px,9vw,120px)}
 .hero h1{font-size:clamp(34px,5.4vw,62px);margin:0 0 14px;color:#fff}
 .hero h1 .accent{color:#FF5A57}
 .hero p.lead{font-size:clamp(16px,2vw,19.5px);color:#D6DEF5;max-width:34em;margin:0 0 30px}
@@ -120,7 +120,7 @@ body.no-scroll{overflow:hidden}
 
 /* stats band */
 .stats{background:var(--surface);border-bottom:1px solid var(--line)}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:30px 0}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-block:30px}
 .stat{text-align:center;padding:10px 6px}
 .stat b{display:block;font-size:clamp(28px,3.6vw,42px);color:var(--navy);font-weight:900;line-height:1.05}
 .stat b .plus{color:var(--red)}
@@ -322,7 +322,7 @@ body.no-scroll{overflow:hidden}
 
 /* ── footer ── */
 .site-footer{background:var(--navy-deep);color:#B9C4E4;margin-top:70px}
-.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:30px;padding:52px 0 34px}
+.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:30px;padding-block:52px 34px}
 .site-footer h4{color:#fff;font-size:14.5px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 14px}
 .site-footer a{display:block;color:#B9C4E4;padding:4px 0;font-size:14px}
 .site-footer a:hover{color:#fff}
@@ -633,3 +633,12 @@ body.no-scroll{overflow:hidden}
 .c-item span a:hover{color:var(--red);border-bottom-color:rgba(216,7,16,.4)}
 .f-addr a{color:#B9C4E4;display:inline;padding:0;border-bottom:1px solid rgba(185,196,228,.35)}
 .f-addr a:hover{color:#fff}
+
+/* ── gutter guard ─────────────────────────────────────────
+   Some .shell companions (.hero-inner, .stats-row, .footer-grid)
+   historically used the `padding` shorthand, which silently zeroed the
+   horizontal gutter and pinned text to the screen edge on phones.
+   This rule sits last so the side gutter always wins, whatever a
+   companion class sets. Keep it at the bottom of the file.        */
+.shell{padding-inline:clamp(18px,4vw,28px)}
+@media (max-width:420px){ .shell{padding-inline:16px} }
