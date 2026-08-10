@@ -15,7 +15,12 @@
 <meta property="og:title" content="Safeguard Anchors — Anchors you can build on.">
 <meta property="og:description" content="ETA-approved fixing and fastening solutions.">
 <meta property="og:image" content="assets/img/icons/icon-512.png">
-<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/app.css?v=3">
+<style>
+/* critical guard: keep the ambient backdrop invisible until app.css loads,
+   so decorative glyphs can never render as raw inline SVG */
+.bg-scene{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;visibility:hidden}
+</style>
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to content</a>
@@ -98,7 +103,7 @@
   <div class="shell footer-grid">
     <div class="f-brand">
       <img src="assets/img/logo.png" alt="Safeguard Anchors logo">
-      <p>Safeguard Anchors Co., Ltd.<br>Innovative fixing &amp; fastening solutions,<br>engineered in Taiwan.</p>
+      <p>Safeguard Anchors Enterprise Company Ltd.<br>Innovative fixing &amp; fastening solutions,<br>engineered in Taiwan.</p>
     </div>
     <div>
       <h4>Products</h4>
@@ -117,19 +122,21 @@
     </div>
     <div>
       <h4>Head Office</h4>
-      <p class="f-addr">9F, No. 21, Sec. 3, Xinsheng S. Rd.,<br>Da'an Dist., Taipei City 106, Taiwan</p>
-      <p class="f-addr muted">sales@safeguard-anchors.example<br>+886-2-XXXX-XXXX</p>
+      <p class="f-addr">7F.-1, No. 388, Sec. 1, Neihu Rd.,<br>Neihu Dist., Taipei City 114, Taiwan (R.O.C.)</p>
+      <p class="f-addr muted">Tel +886-2-8797-8358 · Fax +886-2-8797-8269<br>
+        <a href="mailto:safegaurd@sf-guard.com">safegaurd@sf-guard.com</a></p>
+      <p class="f-addr muted">Unified Business No. 23028748</p>
     </div>
   </div>
   <div class="shell footer-base">
-    <span>© <span id="yr"></span> Safeguard Anchors Co., Ltd. All rights reserved.</span>
+    <span>© <span id="yr"></span> Safeguard Anchors Enterprise Company Ltd. All rights reserved.</span>
     <span class="f-tag">* SAFEGUARD ANCHORS *</span>
   </div>
 </footer>
 
 <button class="to-top" id="toTop" aria-label="Back to top" hidden>↑</button>
 
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/data.js?v=3"></script>
+<script src="assets/js/app.js?v=3"></script>
 </body>
 </html>

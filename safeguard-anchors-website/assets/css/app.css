@@ -626,3 +626,10 @@ body.no-scroll{overflow:hidden}
 /* step number chips: keep visible when inactive */
 .how-steps li b .n{background:#D9E2F8;border:1px solid #C2D0F0;color:var(--navy)}
 .how-steps li.on b .n{background:var(--navy);border-color:var(--navy);color:#fff}
+/* ambient backdrop becomes visible only once the stylesheet is applied */
+.bg-scene{visibility:visible}
+/* contact + footer: linked email/phone styling */
+.c-item span a{color:var(--navy);font-weight:650;border-bottom:1px solid rgba(2,51,160,.25)}
+.c-item span a:hover{color:var(--red);border-bottom-color:rgba(216,7,16,.4)}
+.f-addr a{color:#B9C4E4;display:inline;padding:0;border-bottom:1px solid rgba(185,196,228,.35)}
+.f-addr a:hover{color:#fff}

@@ -406,12 +406,16 @@ function vContact() {
   <section class="section"><div class="shell contact-grid">
     <div class="c-info reveal">
       <h2>Talk to our team</h2>
-      <div class="c-item"><span class="ico">📍</span><div><b>Head Office</b>
-        <span>9F, No. 21, Sec. 3, Xinsheng S. Rd.,<br>Da'an Dist., Taipei City 106, Taiwan (R.O.C.)</span></div></div>
+      <div class="c-item"><span class="ico">🏢</span><div><b>Safeguard Anchors Enterprise Company Ltd.</b>
+        <span>Unified Business No. 23028748</span></div></div>
+      <div class="c-item"><span class="ico">📍</span><div><b>Taipei Head Office</b>
+        <span>7F.-1, No. 388, Sec. 1, Neihu Rd.,<br>Neihu Dist., Taipei City 114, Taiwan (R.O.C.)</span></div></div>
+      <div class="c-item"><span class="ico">👤</span><div><b>Contact person</b>
+        <span>Brian Huang</span></div></div>
+      <div class="c-item"><span class="ico">☎</span><div><b>Tel / Fax</b>
+        <span>Tel: +886-2-8797-8358<br>Fax: +886-2-8797-8269</span></div></div>
       <div class="c-item"><span class="ico">✉</span><div><b>Email</b>
-        <span>sales@safeguard-anchors.example</span></div></div>
-      <div class="c-item"><span class="ico">☎</span><div><b>Phone</b>
-        <span>+886-2-XXXX-XXXX</span></div></div>
+        <span><a href="mailto:safegaurd@sf-guard.com">safegaurd@sf-guard.com</a></span></div></div>
       <div class="c-item"><span class="ico">🕘</span><div><b>Office hours</b>
         <span>Mon–Fri, 09:00–18:00 (GMT+8)</span></div></div>
     </div>
