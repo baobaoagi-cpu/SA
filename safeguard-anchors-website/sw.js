@@ -1,5 +1,5 @@
 /* Safeguard Anchors — service worker (offline-first PWA) */
-const VERSION = "sa-v1";
+const VERSION = "sa-v2";
 const SHELL = [
   "./", "index.html", "manifest.webmanifest",
   "assets/css/app.css", "assets/js/app.js", "assets/js/data.js",

@@ -12,7 +12,7 @@ const CATALOGUE_URL = "https://www.construction-anchors.com/wp-content/uploads/2
 
 /* ---------- shared partials ---------- */
 const pCard = (p, i) => `
-  <a class="p-card reveal ${i < 4 ? "d" + i : ""}" href="#/product/${p.slug}">
+  <a class="p-card reveal d${Math.min(i, 7)}" href="#/product/${p.slug}">
     <div class="p-thumb">${p.eta ? '<span class="p-eta">ETA</span>' : ""}
       <img src="${p.card}" alt="${esc(p.name)}" loading="lazy"></div>
     <div class="p-body">
@@ -40,19 +40,21 @@ const ctaBand = () => `
 /* ---------- views ---------- */
 function vHome() {
   const cats = DATA.categories.map((c, i) => `
-    <a class="cat-card reveal d${i}" href="#/category/${c.slug}">
+    <a class="cat-card reveal d${i}" data-fx="flip" href="#/category/${c.slug}">
       <img src="${c.banner}" alt="" loading="lazy">
       <div class="cat-body"><h3>${esc(c.name)}</h3><span>${c.count} product ${c.count > 1 ? "series" : "series"}</span>
       <span class="go">Explore →</span></div>
     </a>`).join("");
   const eta = prods().filter(p => p.eta).map((p, i) => pCard(p, i)).join("");
   const cs = DATA.coming.map((c, i) => `
-    <a class="cs-card reveal d${i}" href="#/coming-soon">
+    <a class="cs-card reveal d${i}" data-fx="zoom" href="#/coming-soon">
       <div class="cs-thumb"><span class="cs-tag">COMING SOON</span><img src="${c.imgs[0]}" alt="${esc(c.name)}" loading="lazy"></div>
       <div class="cs-body"><h3>${esc(c.name)}</h3><p>${esc(c.desc)}</p></div>
     </a>`).join("");
+  const tick = `<div class="ticker-half">${["ETA APPROVED", "SEISMIC PERFORMANCE", "WEDGE ANCHORS", "CONCRETE BOLTS", "DROP-IN ANCHORS", "CAVITY FIXINGS", "ENGINEERED IN TAIWAN", "QUALITY FASTENING"].map(t => `<span>${t}</span><i>◆</i>`).join("")}</div>`;
   return `
   <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
     <div class="shell hero-inner">
       <div>
         <h1>Anchors you can <span class="accent">build on.</span></h1>
@@ -69,13 +71,18 @@ function vHome() {
       </div>
       <div class="hero-art">
         <div class="hero-logo-wrap">
+          <span class="hero-glow"></span>
           <span class="hero-ring"></span><span class="hero-ring r2"></span>
+          <span class="hero-orbit"><i></i></span><span class="hero-orbit o2"><i></i></span>
           <img class="hero-logo" src="assets/img/logo.png" alt="Safeguard Anchors">
+          <span class="hero-chip c1">✔ ETA Approved</span>
+          <span class="hero-chip c2">◆ Seismic Tested</span>
         </div>
       </div>
     </div>
   </section>
-  <section class="stats"><div class="shell stats-row">
+  <div class="ticker" aria-hidden="true"><div class="ticker-track">${tick}${tick}</div></div>
+  <section class="stats"><div class="shell stats-row reveal">
     <div class="stat"><b><span data-count="16">0</span><span class="plus">+</span></b><span>Product series</span></div>
     <div class="stat"><b><span data-count="34">0</span><span class="plus">+</span></b><span>Models &amp; variants</span></div>
     <div class="stat"><b><span data-count="6">0</span></b><span>ETA-approved products</span></div>
@@ -88,15 +95,123 @@ function vHome() {
       <a class="sec-link" href="#/products">All products →</a></div>
     <div class="cat-grid">${cats}</div>
   </div></section>
+  <section class="section how"><div class="shell">
+    <div class="sec-head reveal"><div><span class="kick">Engineering</span>
+      <h2>How a wedge anchor works</h2>
+      <p>Four steps from drill to full load-bearing connection — the principle behind our ETA-approved range.</p></div>
+      <a class="sec-link" href="#/eta">ETA range →</a></div>
+    <div class="how-wrap reveal" data-fx="zoom">
+      <div class="how-diagram s0" id="howDiag" role="img" aria-label="Animated cross-section showing wedge anchor installation: drill, insert, tighten, load">
+        <svg viewBox="0 0 560 430" preserveAspectRatio="xMidYMid meet">
+          <rect x="15" y="160" width="530" height="255" fill="#E3E7EF" stroke="#C6CCDA"/>
+          <g stroke="#D6DBE6" stroke-width="1">
+            <path d="M15 220 L75 160 M15 320 L175 160 M15 415 L270 160 M120 415 L375 160 M225 415 L480 160 M330 415 L545 200 M435 415 L545 305"/>
+          </g>
+          <g fill="#D3D8E3">
+            <circle cx="60" cy="205" r="7"/><circle cx="122" cy="342" r="9"/><circle cx="200" cy="252" r="6"/>
+            <circle cx="88" cy="390" r="5"/><circle cx="352" cy="222" r="8"/><circle cx="422" cy="332" r="10"/>
+            <circle cx="482" cy="242" r="6"/><circle cx="250" cy="382" r="7"/><circle cx="512" cy="382" r="5"/>
+            <circle cx="168" cy="300" r="5"/><circle cx="318" cy="368" r="6"/><circle cx="455" cy="188" r="5"/>
+          </g>
+          <line x1="15" y1="160" x2="545" y2="160" stroke="#98A2B8" stroke-width="2.5"/>
+          <rect class="hw-hole" x="266" y="161" width="28" height="131" fill="#F8FAFD" stroke="#C2C9D8"/>
+          <g class="hw-dim" fill="none" stroke="#8A8F99" stroke-width="1.2">
+            <path d="M266 150 h28 M266 146 v8 M294 146 v8"/>
+            <path d="M312 161 v131 M308 161 h8 M308 292 h8"/>
+            <text x="280" y="140" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5C626E" stroke="none">⌀d</text>
+            <text x="320" y="231" font-size="11.5" font-weight="700" fill="#5C626E" stroke="none">h·ef</text>
+          </g>
+          <g class="hw-dust" fill="#B9C1CF">
+            <circle cx="292" cy="164" r="3" style="--dx:20px"/>
+            <circle cx="268" cy="166" r="2.6" style="--dx:-18px"/>
+            <circle cx="297" cy="169" r="2.2" style="--dx:26px"/>
+            <circle cx="263" cy="169" r="2.4" style="--dx:-26px"/>
+          </g>
+          <g class="hw-drill">
+            <rect x="258" y="14" width="44" height="36" rx="6" fill="#475062"/>
+            <rect x="270" y="50" width="20" height="8" rx="2" fill="#5A6478"/>
+            <rect x="273" y="58" width="14" height="90" fill="#7C8698"/>
+            <path d="M273 70 h14 M273 84 h14 M273 98 h14 M273 112 h14 M273 126 h14 M273 140 h14" stroke="#5F6B82" stroke-width="2"/>
+            <polygon points="273,148 287,148 280,163" fill="#5A6478"/>
+          </g>
+          <g class="hw-plate">
+            <rect x="222" y="146" width="116" height="14" rx="3" fill="#C6CDDA" stroke="#A8B0C2"/>
+          </g>
+          <g class="hw-anchor">
+            <rect x="274" y="100" width="12" height="192" fill="#8792A6" stroke="#6E7890" stroke-width="0.6"/>
+            <path d="M274 104 h12 M274 111 h12 M274 118 h12 M274 125 h12 M274 132 h12" stroke="#6E7890" stroke-width="1.4"/>
+            <polygon points="274,292 286,292 293,306 267,306" fill="#6E7890"/>
+            <path class="hw-clipL" d="M269 254 h6 v34 l-6 8 z" fill="#A2ACBF" stroke="#7C8698" stroke-width="0.8"/>
+            <path class="hw-clipR" d="M291 254 h-6 v34 l6 8 z" fill="#A2ACBF" stroke="#7C8698" stroke-width="0.8"/>
+            <rect x="256" y="140" width="48" height="6" rx="2" fill="#9AA4B8"/>
+            <g class="hw-nut">
+              <polygon points="264,118 268,109 292,109 296,118 292,127 268,127" fill="#5F6B82" stroke="#475062"/>
+            </g>
+          </g>
+          <g class="hw-ins" fill="none" stroke="#D80710" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M268 52 l12 12 l12 -12"/>
+            <path d="M268 72 l12 12 l12 -12"/>
+          </g>
+          <g class="hw-rot" fill="none" stroke="#D80710" stroke-width="3.5" stroke-linecap="round">
+            <path d="M280 82 A36 36 0 1 1 247 103"/>
+            <path d="M247 103 l14 2 M247 103 l6 -13"/>
+          </g>
+          <g class="hw-grip" fill="none" stroke="#D80710" stroke-width="3.5" stroke-linecap="round">
+            <path d="M263 283 H241 M241 283 l9 -6 M241 283 l9 6"/>
+            <path d="M297 283 H319 M319 283 l-9 -6 M319 283 l-9 6"/>
+          </g>
+          <g class="hw-cone" fill="none" stroke="#0233A0" stroke-width="1.6" opacity="0.55">
+            <path d="M270 288 L172 163"/>
+            <path d="M290 288 L388 163"/>
+            <path d="M272 292 L215 163"/>
+            <path d="M288 292 L345 163"/>
+          </g>
+          <g class="hw-load">
+            <g class="arrN">
+              <line x1="280" y1="96" x2="280" y2="58" stroke="#D80710" stroke-width="4"/>
+              <polygon points="271,62 289,62 280,46" fill="#D80710"/>
+              <text x="296" y="60" font-size="14" font-weight="800" fill="#D80710">N</text>
+            </g>
+            <g class="arrV">
+              <line x1="340" y1="153" x2="372" y2="153" stroke="#0233A0" stroke-width="4"/>
+              <polygon points="372,146 372,160 388,153" fill="#0233A0"/>
+              <text x="352" y="141" font-size="14" font-weight="800" fill="#0233A0">V</text>
+            </g>
+          </g>
+          <g class="hw-ok">
+            <rect x="398" y="58" width="100" height="34" rx="17" fill="#16A34A"/>
+            <text x="448" y="80" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">SECURE ✓</text>
+          </g>
+          <g class="hw-tag tag-s0"><rect x="20" y="18" width="172" height="32" rx="9" fill="#0233A0" opacity="0.93"/>
+            <text x="106" y="39" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fff" letter-spacing="1">STEP 1 · DRILL</text></g>
+          <g class="hw-tag tag-s1"><rect x="20" y="18" width="172" height="32" rx="9" fill="#0233A0" opacity="0.93"/>
+            <text x="106" y="39" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fff" letter-spacing="1">STEP 2 · INSERT</text></g>
+          <g class="hw-tag tag-s2"><rect x="20" y="18" width="172" height="32" rx="9" fill="#0233A0" opacity="0.93"/>
+            <text x="106" y="39" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fff" letter-spacing="1">STEP 3 · TIGHTEN</text></g>
+          <g class="hw-tag tag-s3"><rect x="20" y="18" width="172" height="32" rx="9" fill="#16A34A" opacity="0.95"/>
+            <text x="106" y="39" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fff" letter-spacing="1">STEP 4 · LOADED</text></g>
+        </svg>
+      </div>
+      <aside class="how-side">
+        <ol class="how-steps" id="howSteps">
+          <li class="on"><b><span class="n">1</span>Drill</b><span>Drill a hole to the specified diameter and embedment depth, then clear the dust.</span></li>
+          <li><b><span class="n">2</span>Insert</b><span>Drive the anchor through the fixture until the washer seats against the surface.</span></li>
+          <li><b><span class="n">3</span>Tighten</b><span>Torque the nut — the cone pulls up and expands the clip hard against the concrete.</span></li>
+          <li><b><span class="n">4</span>Load</b><span>The expanded clip locks into the base material, resisting tension (N) and shear (V).</span></li>
+        </ol>
+        <div class="how-bar"><i id="howBar" class="run"></i></div>
+      </aside>
+    </div>
+  </div></section>
   <section class="section tint"><div class="shell">
-    <div class="sec-head reveal"><div><span class="kick">Certified performance</span>
+    <div class="sec-head reveal" data-fx="left"><div><span class="kick">Certified performance</span>
       <h2>ETA Approved Range</h2>
       <p>Independently assessed to European Technical Assessment standards for guaranteed, repeatable performance in concrete.</p></div>
       <a class="sec-link" href="#/eta">About ETA →</a></div>
     <div class="grid">${eta}</div>
   </div></section>
   <section class="section"><div class="shell">
-    <div class="sec-head reveal"><div><span class="kick">In development</span>
+    <div class="sec-head reveal" data-fx="left"><div><span class="kick">In development</span>
       <h2>Coming soon to the range</h2></div>
       <a class="sec-link" href="#/coming-soon">See what's next →</a></div>
     <div class="cs-grid">${cs}</div>
@@ -275,7 +390,7 @@ function vAbout() {
       because the fastening industry never stands still, and neither do we.</p></div>
     </div>
   </div></section>
-  <section class="stats"><div class="shell stats-row">
+  <section class="stats"><div class="shell stats-row reveal">
     <div class="stat"><b><span data-count="16">0</span><span class="plus">+</span></b><span>Product series</span></div>
     <div class="stat"><b><span data-count="34">0</span><span class="plus">+</span></b><span>Models &amp; variants</span></div>
     <div class="stat"><b><span data-count="6">0</span></b><span>ETA-approved products</span></div>
@@ -367,6 +482,34 @@ function afterRender(seg, params) {
     requestAnimationFrame(step);
   }), { threshold: 0.6 });
   $$("[data-count]").forEach(el => ioCnt.observe(el));
+
+  /* how-it-works animated diagram */
+  const howDiag = $("#howDiag");
+  if (howDiag) {
+    const steps = $$("#howSteps li"), bar = $("#howBar");
+    let cur = 0, timer = null;
+    const set = i => {
+      cur = i;
+      howDiag.setAttribute("class", "how-diagram s" + i);
+      steps.forEach((s, j) => s.classList.toggle("on", j === i));
+      if (bar) { bar.classList.remove("run"); void bar.offsetWidth; bar.classList.add("run"); }
+    };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } if (bar) bar.style.animationPlayState = "paused"; };
+    const play = () => {
+      if (timer) clearInterval(timer);
+      if (bar) bar.style.animationPlayState = "";
+      timer = setInterval(() => set((cur + 1) % 4), 3400);
+    };
+    steps.forEach((s, i) => s.addEventListener("click", () => { set(i); play(); }));
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      set(3); if (bar) bar.hidden = true;
+    } else {
+      const ioHow = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? play() : stop()), { threshold: 0.3 });
+      ioHow.observe(howDiag);
+      howDiag.addEventListener("mouseenter", stop);
+      howDiag.addEventListener("mouseleave", play);
+    }
+  }
 
   /* products filter page */
   if (seg[0] === "products") {
