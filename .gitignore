@@ -5,3 +5,4 @@ push_to_github.bat
 Thumbs.db
 desktop.ini
 .DS_Store
+publish_pages.bat
