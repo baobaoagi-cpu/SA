@@ -15,12 +15,14 @@
 <meta property="og:title" content="Safeguard Anchors — Anchors you can build on.">
 <meta property="og:description" content="ETA-approved fixing and fastening solutions.">
 <meta property="og:image" content="assets/img/icons/icon-512.png">
-<link rel="stylesheet" href="assets/css/app.css?v=4">
 <style>
-/* critical guard: keep the ambient backdrop invisible until app.css loads,
-   so decorative glyphs can never render as raw inline SVG */
+/* Critical guard — must stay ABOVE the stylesheet link.
+   If app.css fails to load, the decorative backdrop stays hidden instead of
+   rendering as raw inline SVG. app.css re-reveals it with .bg-scene{visibility:visible},
+   which wins on source order once the stylesheet is applied. */
 .bg-scene{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;visibility:hidden}
 </style>
+<link rel="stylesheet" href="assets/css/app.css?v=5">
 </head>
 <body>
 <a class="skip-link" href="#app">Skip to content</a>
@@ -136,7 +138,7 @@
 
 <button class="to-top" id="toTop" aria-label="Back to top" hidden>↑</button>
 
-<script src="assets/js/data.js?v=4"></script>
-<script src="assets/js/app.js?v=4"></script>
+<script src="assets/js/data.js?v=5"></script>
+<script src="assets/js/app.js?v=5"></script>
 </body>
 </html>
