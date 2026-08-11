@@ -238,7 +238,7 @@ body.no-scroll{overflow:hidden}
 .v-item .chev{color:var(--red);transition:transform .28s var(--ease)}
 .v-item.open .chev{transform:rotate(180deg)}
 .v-body{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
-.v-item.open .v-body{max-height:900px;overflow:auto}
+.v-item.open .v-body{max-height:2600px}
 .v-body-inner{padding:4px 14px 14px;overflow-x:auto}
 .rel-row{margin-top:56px}
 
@@ -642,3 +642,76 @@ body.no-scroll{overflow:hidden}
    companion class sets. Keep it at the bottom of the file.        */
 .shell{padding-inline:clamp(18px,4vw,28px)}
 @media (max-width:420px){ .shell{padding-inline:16px} }
+
+/* ═══════════════════════════════════════════════════════════
+   v3 — spec tables with column headers, selection criteria,
+   FAQ, About mission/approach
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── spec tables: header strip stacked flush on its data rows ── */
+.tbl{margin:0 0 16px;border-radius:10px;overflow:hidden;border:1px solid var(--line);
+  background:#fff;box-shadow:0 2px 10px rgba(7,27,77,.05)}
+.tbl img{display:block;width:100%}
+.tbl-head{border-bottom:0}
+.tbl-head + .tbl-body{margin-top:-1px}
+.spec-imgs .tbl:last-child{margin-bottom:0}
+.v-body-inner .tbl{margin:0;border:0;box-shadow:none;border-radius:8px}
+.v-none{color:var(--ink-2);font-size:14px;margin:0}
+.v-none a{font-weight:700}
+
+/* wide tables stay readable on phones */
+@media (max-width:700px){
+  .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tbl img{width:660px;max-width:none}
+}
+
+/* ── selection criteria ── */
+.crit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.crit-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 20px;position:relative;overflow:hidden;
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .28s}
+.crit-card::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:3px;
+  background:linear-gradient(90deg,var(--navy),var(--red));transition:right .45s var(--ease)}
+.crit-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:transparent}
+.crit-card:hover::after{right:0}
+.crit-ico{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;
+  background:var(--navy-soft);color:var(--navy);font-size:20px;margin-bottom:14px;
+  transition:background .28s,color .28s,transform .35s var(--ease)}
+.crit-card:hover .crit-ico{background:var(--navy);color:#fff;transform:rotate(-8deg) scale(1.06)}
+.crit-card h3{font-size:16.5px;margin:0 0 7px}
+.crit-card p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.62}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:900px}
+.faq-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.faq-item > button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:none;border:0;padding:18px 22px;cursor:pointer;font:inherit;font-weight:750;
+  font-size:16px;color:var(--ink);text-align:left;transition:background .2s}
+.faq-item > button:hover{background:var(--navy-soft)}
+.faq-item.open > button{color:var(--navy)}
+.faq-item .v-body-inner{padding:0 22px 20px}
+.faq-item p{margin:0;color:var(--ink-2);font-size:14.8px}
+
+/* ── About: mission list + approach grid ── */
+.lead-p{font-size:16.5px;color:var(--ink-2);max-width:56em;margin:0}
+.mission-list{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;counter-reset:m}
+.mission-list li{display:flex;gap:16px;align-items:flex-start;background:var(--surface);
+  border:1px solid var(--line);border-left:4px solid var(--red);border-radius:var(--r);padding:20px 22px}
+.mission-list .m-n{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:10px;
+  background:var(--navy);color:#fff;font-weight:900;font-size:14px}
+.mission-list p{margin:0;font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.55}
+.appr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
+.appr-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 22px 22px;position:relative;
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease)}
+.appr-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.appr-n{position:absolute;top:16px;right:18px;font-size:44px;font-weight:900;line-height:1;
+  color:var(--navy-soft);transition:color .3s}
+.appr-card:hover .appr-n{color:#D6E0F8}
+.appr-card h3{font-size:16.5px;margin:0 0 8px;padding-right:44px}
+.appr-card p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.62}
+
+/* tall spec tables must never be trapped in an inner scrollbox */
+.v-item.open .v-body{overflow:visible}
+.v-body-inner{overflow-x:auto}

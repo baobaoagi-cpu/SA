@@ -8,7 +8,13 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp
 const cat = slug => DATA.categories.find(c => c.slug === slug);
 const catName = slug => (cat(slug) || {}).name || "";
 const prods = () => DATA.products;
-const CATALOGUE_URL = "https://www.construction-anchors.com/wp-content/uploads/2024/04/CA-CATALOGUE-2024_compressed.pdf";
+/* A spec table is a column-header strip stacked directly on top of its data rows.
+   Some tables ship with the header baked in, in which case head is null. */
+const specTable = (t, alt) => `
+  <figure class="tbl">
+    ${t.head ? `<img class="tbl-head" src="${t.head}" alt="" loading="lazy">` : ""}
+    <img class="tbl-body" src="${t.img}" alt="${alt}" loading="lazy">
+  </figure>`;
 
 /* ---------- shared partials ---------- */
 const pCard = (p, i) => `
@@ -26,6 +32,34 @@ const pageHero = (title, sub, crumbs) => `
   <section class="page-hero"><div class="shell">
     <div class="crumb">${crumbs.map(c => c.href ? `<a href="${c.href}">${esc(c.t)}</a><span>/</span>` : `<span>${esc(c.t)}</span>`).join("")}</div>
     <h1>${esc(title)}</h1>${sub ? `<p>${sub}</p>` : ""}
+  </div></section>`;
+
+const criteriaBand = (tint) => `
+  <section class="section${tint ? " tint" : ""}"><div class="shell">
+    <div class="sec-head reveal" data-fx="left"><div><span class="kick">Choosing a fixing</span>
+      <h2>To help you choose the right product, we emphasise crucial factors for each and every item</h2>
+      <p>Seven considerations that decide whether an anchor performs on site.</p></div></div>
+    <div class="crit-grid">
+      ${DATA.criteria.map((c, i) => `
+        <div class="crit-card reveal d${Math.min(i, 7)}" data-fx="zoom">
+          <span class="crit-ico" aria-hidden="true">${c.icon}</span>
+          <h3>${esc(c.t)}</h3><p>${esc(c.d)}</p>
+        </div>`).join("")}
+    </div>
+  </div></section>`;
+
+const faqBand = () => `
+  <section class="section"><div class="shell">
+    <div class="sec-head reveal"><div><span class="kick">Questions</span>
+      <h2>Frequently Asked Questions</h2></div>
+      <a class="sec-link" href="#/contact">Ask us something →</a></div>
+    <div class="faq-list">
+      ${DATA.faqs.map((f, i) => `
+        <div class="v-item faq-item reveal d${i}">
+          <button type="button" data-acc><span>${esc(f.q)}</span><span class="chev">▼</span></button>
+          <div class="v-body"><div class="v-body-inner"><p>${esc(f.a)}</p></div></div>
+        </div>`).join("")}
+    </div>
   </div></section>`;
 
 const ctaBand = () => `
@@ -210,12 +244,14 @@ function vHome() {
       <a class="sec-link" href="#/eta">About ETA →</a></div>
     <div class="grid">${eta}</div>
   </div></section>
-  <section class="section"><div class="shell">
+  ${criteriaBand(false)}
+  <section class="section tint"><div class="shell">
     <div class="sec-head reveal" data-fx="left"><div><span class="kick">In development</span>
       <h2>Coming soon to the range</h2></div>
       <a class="sec-link" href="#/coming-soon">See what's next →</a></div>
     <div class="cs-grid">${cs}</div>
   </div></section>
+  ${faqBand()}
   ${ctaBand()}`;
 }
 
@@ -258,9 +294,13 @@ function vProduct(slug) {
     <div class="d-panel"><button type="button" data-acc><span>${title}</span><span class="chev">▼</span></button>
       <div class="d-content"><div class="d-content-inner"><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div></div>
     </div>`;
-  const specFig = (srcs, title) => !srcs.length ? "" : `
+  const specFig = (tables, title) => !tables.length ? "" : `
     <div class="spec-block reveal"><h2>${title}</h2><div class="spec-imgs">
-      ${srcs.map(s => `<figure><img src="${s}" alt="${esc(p.name)} — ${title}" loading="lazy"></figure>`).join("")}
+      ${tables.map(t => specTable(t, `${esc(p.name)} — ${title}`)).join("")}
+    </div></div>`;
+  const plainFig = (srcs, title) => !srcs.length ? "" : `
+    <div class="spec-block reveal"><h2>${title}</h2><div class="spec-imgs">
+      ${srcs.map(s => `<figure class="tbl"><img src="${s}" alt="${esc(p.name)} — ${title}" loading="lazy"></figure>`).join("")}
     </div></div>`;
   return `
   ${pageHero(p.name, "", [{t:"Home",href:"#/"},{t:"Products",href:"#/products"},{t:catName(p.cat),href:"#/category/"+p.cat},{t:p.name}])}
@@ -282,7 +322,7 @@ function vProduct(slug) {
         ${acc("Anchor material", p.bar)}
         <div class="hero-cta" style="margin-top:22px">
           <a class="btn btn-navy" href="#/contact">Request a quote</a>
-          <a class="btn btn-line" href="${CATALOGUE_URL}" target="_blank" rel="noopener">Catalogue (PDF)</a>
+          <a class="btn btn-line" href="#/category/${p.cat}">More in this range</a>
         </div>
       </div>
     </div>
@@ -290,10 +330,12 @@ function vProduct(slug) {
       <div class="spec-block reveal"><h2>Models &amp; technical data</h2>
       <div class="variant-list">${p.variants.map(v => `
         <div class="v-item"><button type="button" data-acc><span>${esc(v.name)}</span><span class="chev">▼</span></button>
-        <div class="v-body"><div class="v-body-inner">${v.img ? `<img src="${v.img}" alt="${esc(v.name)} specification table" loading="lazy">` : `<p style="color:var(--ink-2)">Specification table available in the catalogue.</p>`}</div></div></div>`).join("")}
+        <div class="v-body"><div class="v-body-inner">${v.img
+          ? specTable(v, `${esc(v.name)} specification table`)
+          : `<p class="v-none">Specification table for this model is available on request — <a href="#/contact">contact our team</a>.</p>`}</div></div></div>`).join("")}
       </div></div>` : ""}
-    ${specFig(p.specs, "Specifications")}
-    ${specFig(p.install, "Installation")}
+    ${specFig(p.specs, "Technical Details")}
+    ${plainFig(p.install, "Installation")}
     ${rel.length ? `<div class="rel-row"><div class="sec-head"><div><span class="kick">${esc(catName(p.cat))}</span>
       <h2>Related products</h2></div></div><div class="grid">${rel.map((r, i) => pCard(r, i)).join("")}</div></div>` : ""}
   </div></section>`;
@@ -345,24 +387,27 @@ function vComing() {
 
 function vDownloads() {
   return `
-  ${pageHero("Download Centre", "Catalogues, datasheets and certificates for the Safeguard Anchors range.",
-    [{t:"Home",href:"#/"},{t:"Downloads"}])}
+  ${pageHero("Technical Resources", "Specification tables, installation details and assessment documents for the Safeguard Anchors range.",
+    [{t:"Home",href:"#/"},{t:"Technical Resources"}])}
   <section class="section"><div class="shell">
     <div class="dl-grid">
-      <a class="dl-card reveal" href="${CATALOGUE_URL}" target="_blank" rel="noopener">
-        <span class="dl-icon">⤓</span><h3>Product Catalogue 2024</h3>
-        <p>The full range — dimensions, load data, finishes and packaging.</p>
-        <span class="p-more">Download PDF →</span></a>
-      <a class="dl-card reveal d1" href="#/products">
-        <span class="dl-icon">≡</span><h3>Product datasheets</h3>
-        <p>Specification tables and installation details are published on each product page.</p>
+      <a class="dl-card reveal" href="#/products">
+        <span class="dl-icon">≡</span><h3>Product specifications</h3>
+        <p>Every product page carries its full technical detail table — product references, dimensions,
+        drill diameters, embedment depths and packing quantities.</p>
         <span class="p-more">Browse products →</span></a>
+      <a class="dl-card reveal d1" href="#/eta">
+        <span class="dl-icon">✓</span><h3>ETA approved range</h3>
+        <p>Six anchor series independently assessed to European Technical Assessment standards.</p>
+        <span class="p-more">View the range →</span></a>
       <a class="dl-card reveal d2" href="#/contact">
-        <span class="dl-icon">✓</span><h3>ETA certificates</h3>
-        <p>Assessment documents for the ETA-approved range, available on request.</p>
+        <span class="dl-icon">✉</span><h3>Assessment documents</h3>
+        <p>ETA certificates and declarations of performance are issued on request — tell us the
+        product and application and our team will send the current documents.</p>
         <span class="p-more">Request documents →</span></a>
     </div>
   </div></section>
+  ${criteriaBand(true)}
   ${ctaBand()}`;
 }
 
@@ -382,12 +427,28 @@ function vAbout() {
     </div>
     <img class="reveal d1" src="assets/img/site/about-1.jpg" alt="Safeguard Anchors products" loading="lazy">
   </section>
+  <section class="section tint"><div class="shell">
+    <div class="sec-head reveal"><div><span class="kick">Quality</span>
+      <h2>Rigorously tested products</h2></div></div>
+    <p class="lead-p reveal">${esc(DATA.about.tested)}</p>
+  </div></section>
   <section class="section"><div class="shell">
-    <div class="mission reveal">
-      <div><h3>Our mission</h3><p>To become a trusted global partner for construction professionals while
-      maintaining superior product and service quality at every step.</p></div>
-      <div><h3>Our approach</h3><p>Cutting-edge tooling, continuous innovation, and the flexibility to adapt —
-      because the fastening industry never stands still, and neither do we.</p></div>
+    <div class="sec-head reveal"><div><span class="kick">Our mission</span>
+      <h2>What we are working towards</h2></div></div>
+    <ol class="mission-list">
+      ${DATA.about.mission.map((m, i) => `
+        <li class="reveal d${i}" data-fx="left"><span class="m-n">${i + 1}</span><p>${esc(m)}</p></li>`).join("")}
+    </ol>
+  </div></section>
+  <section class="section tint"><div class="shell">
+    <div class="sec-head reveal"><div><span class="kick">Our approach</span>
+      <h2>How we get there</h2></div></div>
+    <div class="appr-grid">
+      ${DATA.about.approach.map((a, i) => `
+        <div class="appr-card reveal d${i}" data-fx="zoom">
+          <span class="appr-n">${i + 1}</span>
+          <h3>${esc(a.t)}</h3><p>${esc(a.d)}</p>
+        </div>`).join("")}
     </div>
   </div></section>
   <section class="stats"><div class="shell stats-row reveal">
@@ -396,6 +457,7 @@ function vAbout() {
     <div class="stat"><b><span data-count="6">0</span></b><span>ETA-approved products</span></div>
     <div class="stat"><b><span data-count="2">0</span></b><span>Production bases</span></div>
   </div></section>
+  ${faqBand()}
   ${ctaBand()}`;
 }
 
