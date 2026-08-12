@@ -117,8 +117,8 @@ function vHome() {
   </section>
   <div class="ticker" aria-hidden="true"><div class="ticker-track">${tick}${tick}</div></div>
   <section class="stats"><div class="shell stats-row reveal">
-    <div class="stat"><b><span data-count="16">0</span><span class="plus">+</span></b><span>Product series</span></div>
-    <div class="stat"><b><span data-count="34">0</span><span class="plus">+</span></b><span>Models &amp; variants</span></div>
+    <div class="stat"><b><span data-count="14">0</span><span class="plus">+</span></b><span>Product series</span></div>
+    <div class="stat"><b><span data-count="30">0</span><span class="plus">+</span></b><span>Models &amp; variants</span></div>
     <div class="stat"><b><span data-count="6">0</span></b><span>ETA-approved products</span></div>
     <div class="stat"><b><span data-count="2">0</span></b><span>Production bases</span></div>
   </div></section>
@@ -445,8 +445,8 @@ function vAbout() {
     </div>
   </div></section>
   <section class="stats"><div class="shell stats-row reveal">
-    <div class="stat"><b><span data-count="16">0</span><span class="plus">+</span></b><span>Product series</span></div>
-    <div class="stat"><b><span data-count="34">0</span><span class="plus">+</span></b><span>Models &amp; variants</span></div>
+    <div class="stat"><b><span data-count="14">0</span><span class="plus">+</span></b><span>Product series</span></div>
+    <div class="stat"><b><span data-count="30">0</span><span class="plus">+</span></b><span>Models &amp; variants</span></div>
     <div class="stat"><b><span data-count="6">0</span></b><span>ETA-approved products</span></div>
     <div class="stat"><b><span data-count="2">0</span></b><span>Production bases</span></div>
   </div></section>

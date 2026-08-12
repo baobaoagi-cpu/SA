@@ -138,7 +138,7 @@ body.no-scroll{overflow:hidden}
 .sec-link:hover{color:var(--red)}
 
 /* category cards */
-.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .cat-card{position:relative;border-radius:var(--r);overflow:hidden;background:var(--navy-deep);
   aspect-ratio:4/4.6;display:flex;align-items:flex-end;box-shadow:var(--shadow);
   transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
