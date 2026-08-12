@@ -294,10 +294,6 @@ function vProduct(slug) {
     <div class="d-panel"><button type="button" data-acc><span>${title}</span><span class="chev">▼</span></button>
       <div class="d-content"><div class="d-content-inner"><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div></div>
     </div>`;
-  const specFig = (tables, title) => !tables.length ? "" : `
-    <div class="spec-block reveal"><h2>${title}</h2><div class="spec-imgs">
-      ${tables.map(t => specTable(t, `${esc(p.name)} — ${title}`)).join("")}
-    </div></div>`;
   const plainFig = (srcs, title) => !srcs.length ? "" : `
     <div class="spec-block reveal"><h2>${title}</h2><div class="spec-imgs">
       ${srcs.map(s => `<figure class="tbl"><img src="${s}" alt="${esc(p.name)} — ${title}" loading="lazy"></figure>`).join("")}
@@ -326,15 +322,12 @@ function vProduct(slug) {
         </div>
       </div>
     </div>
-    ${p.variants && p.variants.length ? `
-      <div class="spec-block reveal"><h2>Models &amp; technical data</h2>
-      <div class="variant-list">${p.variants.map(v => `
-        <div class="v-item"><button type="button" data-acc><span>${esc(v.name)}</span><span class="chev">▼</span></button>
-        <div class="v-body"><div class="v-body-inner">${v.img
-          ? specTable(v, `${esc(v.name)} specification table`)
-          : `<p class="v-none">Specification table for this model is available on request — <a href="#/contact">contact our team</a>.</p>`}</div></div></div>`).join("")}
-      </div></div>` : ""}
-    ${specFig(p.specs, "Technical Details")}
+    ${p.tables && p.tables.length ? `
+      <div class="spec-block reveal"><h2>Technical Details</h2>
+      ${p.tables.map(t => `
+        ${t.title ? `<h3 class="tbl-title">${esc(t.title)}</h3>` : ""}
+        ${specTable(t, `${esc(p.name)}${t.title ? " — " + esc(t.title) : ""} specification table`)}`).join("")}
+      </div>` : ""}
     ${plainFig(p.install, "Installation")}
     ${rel.length ? `<div class="rel-row"><div class="sec-head"><div><span class="kick">${esc(catName(p.cat))}</span>
       <h2>Related products</h2></div></div><div class="grid">${rel.map((r, i) => pCard(r, i)).join("")}</div></div>` : ""}

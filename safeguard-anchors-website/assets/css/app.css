@@ -714,3 +714,9 @@ body.no-scroll{overflow:hidden}
 /* tall spec tables must never be trapped in an inner scrollbox */
 .v-item.open .v-body{overflow:visible}
 .v-body-inner{overflow-x:auto}
+
+/* sub-table headings, as the source site carries them above each table */
+.tbl-title{font-size:clamp(15px,2vw,18px);font-weight:800;letter-spacing:.04em;
+  color:var(--red);margin:26px 0 10px;text-transform:uppercase}
+.spec-block > .tbl-title:first-of-type{margin-top:6px}
+.spec-block .tbl{margin-bottom:6px}

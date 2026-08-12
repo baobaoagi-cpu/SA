@@ -1,8 +1,8 @@
 /* Safeguard Anchors — service worker (offline-first PWA) */
-const VERSION = "sa-v9";
+const VERSION = "sa-v11";
 const SHELL = [
   "./", "index.html", "manifest.webmanifest",
-  "assets/css/app.css?v=9", "assets/js/app.js?v=9", "assets/js/data.js?v=9",
+  "assets/css/app.css?v=11", "assets/js/app.js?v=11", "assets/js/data.js?v=11",
   "assets/img/logo.png",
   "assets/img/icons/icon-192.png", "assets/img/icons/icon-512.png",
   "assets/img/site/hero-bg.jpg", "assets/img/site/eta-logo.jpg"
