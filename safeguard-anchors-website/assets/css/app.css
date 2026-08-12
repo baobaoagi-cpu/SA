@@ -649,13 +649,12 @@ body.no-scroll{overflow:hidden}
    ═══════════════════════════════════════════════════════════ */
 
 /* ── spec tables: header strip stacked flush on its data rows ── */
-.tbl{margin:0 0 16px;border-radius:10px;overflow:hidden;border:1px solid var(--line);
-  background:#fff;box-shadow:0 2px 10px rgba(7,27,77,.05)}
+.tbl{margin:0 0 16px;background:#fff}   /* the table image carries its own navy frame */
 .tbl img{display:block;width:100%}
 .tbl-head{border-bottom:0}
 .tbl-head + .tbl-body{margin-top:-1px}
 .spec-imgs .tbl:last-child{margin-bottom:0}
-.v-body-inner .tbl{margin:0;border:0;box-shadow:none;border-radius:8px}
+.v-body-inner .tbl{margin:0}
 .v-none{color:var(--ink-2);font-size:14px;margin:0}
 .v-none a{font-weight:700}
 
